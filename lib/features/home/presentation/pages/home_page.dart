@@ -10,7 +10,6 @@ import 'package:flutter_task/features/home/presentation/widgets/custom_floating_
 import 'package:flutter_task/features/home/presentation/widgets/sections/active_contacts_section.dart';
 import 'package:flutter_task/features/home/presentation/widgets/sections/contact_list_section.dart';
 import 'package:flutter_task/widgets/app_bar/primary_app_bar.dart';
-import 'package:flutter_task/widgets/network_image_widget.dart';
 
 class HomePage extends HookWidget {
 
