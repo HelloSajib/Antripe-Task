@@ -1,39 +1,44 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task/core/utils/styles/app_colors.dart';
 import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/decoration.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
 
-
-class PrimaryTextFormField extends HookWidget {
+class DropdownTextFormField extends HookWidget {
   final String? hintText;
+  final List<String> dropDownList;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
-  final VoidCallback? onTap;
 
-  const PrimaryTextFormField({
+  const DropdownTextFormField({
     super.key,
     this.controller,
     this.hintText,
     this.validator,
-    this.onTap,
     this.textInputType,
+    required this.dropDownList
   });
 
 
   @override
   Widget build(BuildContext context) {
 
-    return InkWell(
-      onTap: onTap,
-      child: TextFormField(
+    return DropDownTextField(
         controller: controller,
-        style: AppTextStyles.primaryRegular,
-        readOnly: onTap != null,
+        dropDownIconProperty: IconProperty(
+          icon: Icons.keyboard_arrow_down,
+        ),
+        dropDownList: dropDownList.map((item) =>
+            DropDownValueModel(
+                name: item,
+                value: item
+            )
+        ).toList(),
+        textStyle: AppTextStyles.primaryRegular,
         keyboardType: textInputType,
-        decoration: InputDecoration(
+        textFieldDecoration: InputDecoration(
           hintText: hintText,
           hintStyle: AppTextStyles.primaryRegular.copyWith(
               color: AppColors.grey
@@ -45,8 +50,7 @@ class PrimaryTextFormField extends HookWidget {
           errorBorder: primaryInputBorder,
 
         ),
-        validator: validator,
-      ),
+        validator: validator
     );
   }
 }

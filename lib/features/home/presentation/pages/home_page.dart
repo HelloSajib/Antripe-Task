@@ -48,9 +48,7 @@ class HomePage extends HookWidget {
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingButton(
-          onPressed: (){}
-      ),
+      floatingActionButton: CustomFloatingButton(),
     );
   }
 }

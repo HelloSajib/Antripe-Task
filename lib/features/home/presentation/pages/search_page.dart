@@ -6,10 +6,15 @@ import 'package:flutter_task/core/utils/styles/app_colors.dart';
 import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
+import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
 import 'package:flutter_task/features/home/presentation/widgets/custom_floating_button.dart';
 import 'package:flutter_task/features/home/presentation/widgets/sections/active_contacts_section.dart';
 import 'package:flutter_task/features/home/presentation/widgets/sections/contact_list_section.dart';
+import 'package:flutter_task/features/home/presentation/widgets/sections/search_section.dart';
 import 'package:flutter_task/widgets/app_bar/primary_app_bar.dart';
+import 'package:flutter_task/widgets/text_forms/primary_text_form_field.dart';
+import 'package:flutter_task/widgets/text_forms/search_text_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends HookWidget {
 
@@ -20,11 +25,15 @@ class SearchPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
+
+            SearchSection(),
 
             Expanded(
               child: Container(
@@ -42,9 +51,7 @@ class SearchPage extends HookWidget {
           ],
         ),
       ),
-      floatingActionButton: CustomFloatingButton(
-          onPressed: (){}
-      ),
+      floatingActionButton: CustomFloatingButton(),
     );
   }
 }

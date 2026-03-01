@@ -6,7 +6,10 @@ import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
+import 'package:flutter_task/features/home/presentation/pages/home_page.dart';
+import 'package:flutter_task/features/home/presentation/pages/search_page.dart';
 import 'package:flutter_task/widgets/buttons/custom_icon_button.dart';
+import 'package:go_router/go_router.dart';
 
 /// The main app bar for the application.
 class PrimaryAppBar extends HookWidget {
@@ -51,7 +54,7 @@ class PrimaryAppBar extends HookWidget {
           const Spacer(),
 
           CustomIconButton(
-              onPressed: (){},
+              onPressed: ()=> context.go(HomePage.path + SearchPage.path),
               iconPath: "assets/icons/search_icon.svg"
           ),
           gap8,
