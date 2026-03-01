@@ -10,28 +10,22 @@ import 'package:flutter_task/features/home/presentation/widgets/custom_floating_
 import 'package:flutter_task/features/home/presentation/widgets/sections/active_contacts_section.dart';
 import 'package:flutter_task/features/home/presentation/widgets/sections/contact_list_section.dart';
 import 'package:flutter_task/widgets/app_bar/primary_app_bar.dart';
-import 'package:flutter_task/widgets/network_image_widget.dart';
 
-class HomePage extends HookWidget {
+class SearchPage extends HookWidget {
 
-  static String get path => "/home";
-  static String get name => "home";
+  static String get path => "/search";
+  static String get name => "search";
 
-  const HomePage({super.key});
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final tabController = useTabController(initialLength: 2);
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            PrimaryAppBar(
-                tabController: tabController
-            ),
+
             Expanded(
               child: Container(
                 width: 1.sw,
