@@ -131,13 +131,21 @@ lib/
 
 ---
 
-## ⚙️ Tech Stack
+## 🧪 Development Environment
 
-* **Flutter:** 3.38.5 (stable)
-* **Dart SDK:** ^3.10.4
-* **Architecture:** DDD-based Clean Architecture
-* **Platform:** Android / Web
-* **API Client:** Dio
+This SDK was built and tested with the following environment:
+
+```
+[√] Flutter (Channel stable, 3.38.5, on Microsoft Windows [Version 10.0.22000.2538], locale en-US) [708ms]
+    • Flutter version 3.38.5 on channel stable at C:\src\flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision fcf2c11572 (4 months ago), 2025-06-24 11:44:07 -0700
+    • Engine revision dd93de6fb1
+    • Dart version ^3.10.4
+    • DevTools version 2.45.1
+```
+
+> ✅ **Note**: It is recommended to use the same or newer version of Flutter and Dart to avoid compatibility issues.
 
 ---
 
