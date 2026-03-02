@@ -11,7 +11,6 @@ import 'package:flutter_task/features/onboarding/presentation/cubit/onboarding_c
 import 'package:flutter_task/features/onboarding/presentation/pages/onboarding_page.dart';
 
 class SplashPage extends HookWidget {
-
   static String get path => "/";
   static String get name => "splash";
 
@@ -19,89 +18,163 @@ class SplashPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Animation controller for entrance (one-time) + breathe loop
+    final animationCtrl = useAnimationController(
+      duration: const Duration(milliseconds: 1600),
+    );
 
-    // Navigates to home or onboarding page.
+
+    // Entrance animations (grow + appear)
+    final fastCurve = CurvedAnimation(
+      parent: animationCtrl,
+      curve: Curves.easeOutCubic,
+    );
+
+    final mediumCurve = CurvedAnimation(
+      parent: animationCtrl,
+      curve: const Interval(0.15, 1.0, curve: Curves.easeOutCubic),
+    );
+
+    final slowCurve = CurvedAnimation(
+      parent: animationCtrl,
+      curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+    );
+
+    final logoAppear = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationCtrl,
+        curve: const Interval(0.4, 1.0, curve: Curves.easeOut),
+      ),
+    );
+
+    final logoScale = Tween<double>(begin: 0.82, end: 1.0).animate(fastCurve);
+
+    // Gentle breathe (scale 1.0 → 1.05 → 1.0)
+    final breathe = Tween<double>(begin: 1.0, end: 1.05).animate(
+      CurvedAnimation(
+        parent: animationCtrl,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    // Staggered circle scales
+    final circle1Scale = Tween<double>(begin: 0.0, end: 1.0).animate(slowCurve);     // bottom-left (last)
+    final circle2Scale = Tween<double>(begin: 0.0, end: 1.0).animate(mediumCurve);   // top-right
+    final circle3Scale = Tween<double>(begin: 0.0, end: 1.0).animate(fastCurve);     // top-left + shadow (first)
+
     void checkingOnboard(bool alreadyOnboarded) {
-      Future.delayed(Duration(seconds: 2),(){
-        if(alreadyOnboarded){
+      Future.delayed(const Duration(seconds: 4), () {
+        if (alreadyOnboarded) {
           context.go(HomePage.path);
-        }else{
+        } else {
           context.go(OnboardingPage.path);
         }
-        // Hides the native splash screen.
         FlutterNativeSplash.remove();
       });
     }
 
-    // Navigates when onboarding state changes.
+
+    useEffect(() {
+      animationCtrl.forward();
+
+      // After entrance animation finishes → start subtle breathe loop
+      Future.delayed(const Duration(milliseconds: 1800), () {
+        if (!animationCtrl.isDismissed && context.mounted) {
+          animationCtrl.repeat(reverse: true);
+        }
+      });
+
+      return animationCtrl.dispose;
+    }, const []);
+
     return BlocListener<OnboardingCubit, bool>(
-      listener: (context, state)=> checkingOnboard(state),
-      child:  Scaffold(
+      listener: (context, state) => checkingOnboard(state),
+      child: Scaffold(
         backgroundColor: AppColors.background,
         body: SizedBox(
           width: 1.sw,
           height: 1.sh,
           child: Stack(
-            alignment: .center,
+            alignment: Alignment.center,
             children: [
-
+              // Top-left big shadowed circle (appears first)
               Positioned(
                 top: -80,
                 left: -120,
-                child: Container(
-                  width: 500.w,
-                  height: 500.h,
-                  decoration: BoxDecoration(
-                      shape: .circle,
+                child: ScaleTransition(
+                  scale: circle3Scale,
+                  child: Container(
+                    width: 500.w,
+                    height: 500.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.1),
-                            blurRadius: 60.r
+                          color: AppColors.primary.withValues(alpha: 0.1),
+                          blurRadius: 60.r,
                         )
-                      ]
+                      ],
+                    ),
                   ),
                 ),
               ),
 
+              // Top-right small circle (appears second)
               Positioned(
                 right: -30,
                 top: -30,
-                child: Container(
-                  width: 160.w,
-                  height: 160.h,
-                  decoration: BoxDecoration(
-                    shape: .circle,
-                    color: AppColors.primary,
+                child: ScaleTransition(
+                  scale: circle2Scale,
+                  child: Container(
+                    width: 160.w,
+                    height: 160.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),
 
-              Positioned(
-                top: 250,
-                child: SvgPicture.asset(
-                  "assets/images/app_logo.svg",
-                  width: 171.w,
-                  height: 168.w,
-                ),
-              ),
-
+              // Bottom-left big circle (appears last)
               Positioned(
                 left: -120,
                 bottom: -120,
-                child: Container(
-                  width: 353.w,
-                  height: 353.h,
-                  decoration: BoxDecoration(
-                    shape: .circle,
-                    color: AppColors.primary,
+                child: ScaleTransition(
+                  scale: circle1Scale,
+                  child: Container(
+                    width: 353.w,
+                    height: 353.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
-              )
+              ),
 
+              // Logo – fade + scale in, then gentle breathe
+              Positioned(
+                top: 250,
+                child: FadeTransition(
+                  opacity: logoAppear,
+                  child: ScaleTransition(
+                    scale: breathe,
+                    child: ScaleTransition(
+                      scale: logoScale,
+                      child: SvgPicture.asset(
+                        "assets/images/app_logo.svg",
+                        width: 171.w,
+                        height: 168.w,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 }
