@@ -2,13 +2,13 @@
 class Assets {
   Assets._();
 
-  static const String dummyCarouselImg1 = 'assets/dummy/carousel_img_1.png';
-  static const String dummyCarouselImg2 = 'assets/dummy/carousel_img_2.png';
-  static const String dummyProfileImg = 'assets/dummy/profile_img.png';
+  static const String iconsAppIcon = 'assets/icons/app_icon.png';
   static const String iconsLocationIcon = 'assets/icons/location_icon.svg';
   static const String iconsMenuIcon = 'assets/icons/menu_icon.svg';
   static const String iconsNotificationIcon = 'assets/icons/notification_icon.svg';
   static const String iconsSearchIcon = 'assets/icons/search_icon.svg';
+  static const String iconsSplashIcon = 'assets/icons/splash_icon.png';
+  static const String imagesAppLogo = 'assets/images/app_logo.svg';
   static const String imagesFloatingBackground = 'assets/images/floating_background.png';
 
 }

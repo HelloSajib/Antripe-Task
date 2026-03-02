@@ -8,7 +8,7 @@ final OutlineInputBorder primaryInputBorder = OutlineInputBorder(
   borderRadius: radius8,
   borderSide: BorderSide(
       width: 1.2.w,
-      color: AppColors.grey
+      color: AppColors.greyLight
   ),
 );
 
