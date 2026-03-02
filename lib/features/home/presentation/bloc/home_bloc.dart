@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/config/service_locator/service_locator.dart';
 import 'package:flutter_task/core/utils/enums/enums.dart';
 import 'package:flutter_task/features/home/data/models/contacts_model.dart' hide Status;
+import 'package:flutter_task/features/home/domain/entities/contact_entity.dart';
 import 'package:flutter_task/features/home/domain/usecases/get_contacts_usecase.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 
@@ -13,6 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
   /// Initializes the BLoC and registers event handlers.
   HomeBloc(): super(HomeState.initial()){
     on<GetContacts>(_onGetContacts);
+    on<SearchContacts>(_onSearchContacts);
   }
 
   /// Get Contacts Event Manager
@@ -22,10 +24,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
     result.fold(
         (error)=> emit(state.copyWith(status: Status.error, message: error.message)),
         (data)=> emit(state.copyWith(
-            status: Status.success,
-            contacts: data?.contacts
+          status: Status.success,
+          contacts: data?.contacts,
+          contactsEntity: data
         ))
     );
+  }
+
+  /// Search Contacts Event Manager
+  Future<void> _onSearchContacts(SearchContacts event, Emitter<HomeState> emit) async {
+    final searchContacts = (state.contactsEntity?.contacts ?? []).where((contact){
+      return (contact.name ?? "").toLowerCase().contains(event.searchText.toLowerCase()) ||
+          (contact.phone ?? "").toLowerCase().contains(event.searchText.toLowerCase());
+    }).toList();
+    emit(state.copyWith(
+        status: Status.success,
+        contacts: searchContacts
+    ));
   }
 
 

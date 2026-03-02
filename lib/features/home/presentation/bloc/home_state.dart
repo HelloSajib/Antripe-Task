@@ -6,11 +6,13 @@ class HomeState extends Equatable{
   final String? message;
   final Status status;
   final List<Contact>? contacts;
+  final ContactsEntity? contactsEntity;
 
   const HomeState({
     required this.message,
     required this.status,
     required this.contacts,
+    required this.contactsEntity
   });
 
   /// Creates the initial state for the home screen.
@@ -18,6 +20,7 @@ class HomeState extends Equatable{
     message: null,
     status: Status.initial,
     contacts: null,
+    contactsEntity: null
   );
 
   /// Creates a copy of the current state with updated values.
@@ -25,17 +28,20 @@ class HomeState extends Equatable{
     String? message,
     Status? status,
     List<Contact>? contacts,
+    ContactsEntity? contactsEntity
   }) => HomeState(
     message: message ?? this.message,
     status: status ?? this.status,
     contacts: contacts ?? this.contacts,
+    contactsEntity: contactsEntity ?? this.contactsEntity
   );
 
   @override
   List<Object?> get props => [
     message,
     status,
-    contacts
+    contacts,
+    contactsEntity
   ];
 
 }

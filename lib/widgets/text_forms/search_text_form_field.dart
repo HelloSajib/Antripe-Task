@@ -30,7 +30,7 @@ class SearchTextFormField extends HookWidget {
 
     void onTextChanged(String value) {
       if (debounceTimer.value?.isActive ?? false) debounceTimer.value!.cancel();
-      debounceTimer.value = Timer(Duration(seconds: 1), () {
+      debounceTimer.value = Timer(Duration(milliseconds: 500), () {
         onChanged(value);
       });
     }

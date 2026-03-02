@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/utils/styles/app_colors.dart';
 import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
+import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 import 'package:flutter_task/widgets/text_forms/search_text_form_field.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,11 +48,11 @@ class SearchSection extends HookWidget {
             Expanded(
               child: SearchTextFormField(
                 controller: searchController,
-                onChanged: (value){
-                  print("Called ++++");
-                },
+                onChanged: (value)=> context.read<HomeBloc>()
+                    .add(SearchContacts(value ?? ""))
               ),
             ),
+
           ],
         )
     );
