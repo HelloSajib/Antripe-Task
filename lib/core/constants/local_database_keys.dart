@@ -2,11 +2,10 @@ class LocalDatabaseKeys {
   const LocalDatabaseKeys._();
 
   /// Local Database Name
-  static String database = "Havenly";
+  static String database = "Qunova";
 
   /// Local Database Keys
   static String onboard = "onboard";
-  static String themeMode = "themeMode";
-  static String connectedServer = "server";
+
 
 }
