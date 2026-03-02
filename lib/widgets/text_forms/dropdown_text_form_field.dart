@@ -4,10 +4,11 @@ import 'package:flutter_task/core/utils/styles/app_colors.dart';
 import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/decoration.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_task/features/home/data/models/contacts_model.dart';
 
 class DropdownTextFormField extends HookWidget {
   final String? hintText;
-  final List<String> dropDownList;
+  final List<Category> dropDownList;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
@@ -30,10 +31,10 @@ class DropdownTextFormField extends HookWidget {
         dropDownIconProperty: IconProperty(
           icon: Icons.keyboard_arrow_down,
         ),
-        dropDownList: dropDownList.map((item) =>
+        dropDownList: dropDownList.map((category) =>
             DropDownValueModel(
-                name: item,
-                value: item
+                name: category.name ?? "N/A",
+                value: category.id ?? ""
             )
         ).toList(),
         textStyle: AppTextStyles.primaryRegular,
