@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_task/core/utils/extensions/null_empty_extension.dart';
 import 'package:flutter_task/core/utils/extensions/status_extension.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 import 'package:flutter_task/features/home/presentation/widgets/item_view/category_item_view.dart';
 
 class ContactCategorySection extends HookWidget {
@@ -14,7 +15,9 @@ class ContactCategorySection extends HookWidget {
   @override
   Widget build(BuildContext context) {
 
-    final selectedIndex = useState<int>(0);
+    void filterContacts(String categoryId){
+      context.read<HomeBloc>().add(CategoryBaseFilter(categoryId));
+    }
 
     return SizedBox(
       height: 90.h,
@@ -27,11 +30,11 @@ class ContactCategorySection extends HookWidget {
               itemBuilder: (context, index) {
                 final category = state.categories![index];
                 return GestureDetector(
-                  onTap: ()=> selectedIndex.value = index,
+                  onTap: ()=> filterContacts(category.id ?? ""),
                   child: CategoryItemView(
-                    imageUrl: state.contacts![index].avatarUrl ?? "",
+                    imageUrl: state.contactsEntity!.contacts![index].avatarUrl ?? "",
                     categoryName: category.name ?? "N/A",
-                    isSelected: selectedIndex.value == index,
+                    isSelected: state.selectedCtg == category.id,
                   ),
                 );
               },

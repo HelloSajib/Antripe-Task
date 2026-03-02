@@ -13,3 +13,12 @@ class SearchContacts extends HomeEvent{
   @override
   List<Object?> get props => [searchText];
 }
+
+class CategoryBaseFilter extends HomeEvent{
+  final String category;
+  CategoryBaseFilter(this.category);
+  @override
+  List<Object?> get props => [
+    category
+  ];
+}

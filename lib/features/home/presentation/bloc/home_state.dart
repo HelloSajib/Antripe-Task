@@ -5,6 +5,7 @@ class HomeState extends Equatable{
 
   final String? message;
   final Status status;
+  final String selectedCtg;
   final List<Contact>? contacts;
   final List<Category>? categories;
   final ContactsEntity? contactsEntity;
@@ -12,6 +13,7 @@ class HomeState extends Equatable{
   const HomeState({
     required this.message,
     required this.status,
+    required this.selectedCtg,
     required this.contacts,
     required this.categories,
     required this.contactsEntity
@@ -21,6 +23,7 @@ class HomeState extends Equatable{
   factory HomeState.initial() => const HomeState(
     message: null,
     status: Status.initial,
+    selectedCtg: "all",
     contacts: null,
     categories: null,
     contactsEntity: null
@@ -30,12 +33,14 @@ class HomeState extends Equatable{
   HomeState copyWith({
     String? message,
     Status? status,
+    String? selectedCtg,
     List<Contact>? contacts,
     List<Category>? categories,
     ContactsEntity? contactsEntity
   }) => HomeState(
     message: message ?? this.message,
     status: status ?? this.status,
+    selectedCtg: selectedCtg ?? this.selectedCtg,
     contacts: contacts ?? this.contacts,
     categories: categories ?? this.categories,
     contactsEntity: contactsEntity ?? this.contactsEntity
@@ -45,6 +50,7 @@ class HomeState extends Equatable{
   List<Object?> get props => [
     message,
     status,
+    selectedCtg,
     contacts,
     categories,
     contactsEntity

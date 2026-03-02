@@ -15,6 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
   HomeBloc(): super(HomeState.initial()){
     on<GetContacts>(_onGetContacts);
     on<SearchContacts>(_onSearchContacts);
+    on<CategoryBaseFilter>(_onCategoryBaseFilter);
   }
 
   /// Get Contacts Event Manager
@@ -35,12 +36,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
   /// Search Contacts Event Manager
   Future<void> _onSearchContacts(SearchContacts event, Emitter<HomeState> emit) async {
     final searchContacts = (state.contactsEntity?.contacts ?? []).where((contact){
-      return (contact.name ?? "").toLowerCase().contains(event.searchText.toLowerCase()) ||
-          (contact.phone ?? "").toLowerCase().contains(event.searchText.toLowerCase());
+      return state.selectedCtg == contact.categoryId &&
+          ((contact.name ?? "").toLowerCase().contains(event.searchText.toLowerCase()) ||
+          (contact.phone ?? "").toLowerCase().contains(event.searchText.toLowerCase()));
     }).toList();
+
     emit(state.copyWith(
         status: Status.success,
         contacts: searchContacts
+    ));
+  }
+
+  /// Search Contacts Event Manager
+  Future<void> _onCategoryBaseFilter(CategoryBaseFilter event, Emitter<HomeState> emit) async {
+    final categoryBaseContacts = (state.contactsEntity?.contacts ?? []).where((contact){
+      return contact.categoryId == event.category;
+    }).toList();
+    emit(state.copyWith(
+        status: Status.success,
+        selectedCtg: event.category,
+        contacts: categoryBaseContacts,
     ));
   }
 
