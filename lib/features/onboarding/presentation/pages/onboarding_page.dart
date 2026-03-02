@@ -13,14 +13,10 @@ import 'package:flutter_task/features/home/presentation/pages/home_page.dart';
 import 'package:flutter_task/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:flutter_task/widgets/buttons/primary_button.dart';
 
-/// A page that introduces the user to the app and its features for the first time.
 class OnboardingPage extends HookWidget {
-  /// The route path for this page.
   static String get path => "/onboarding";
-  /// The route name for this page.
   static String get name => "onboarding";
 
-  /// Creates an [OnboardingPage].
   const OnboardingPage({super.key});
 
   @override
