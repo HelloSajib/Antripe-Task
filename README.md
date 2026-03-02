@@ -1,173 +1,74 @@
-# 📱 Flutter Daraz-Style Product Listing – Scroll Architecture Demo
+# 📱 Antripe Flutter Assignment
 
-This project demonstrates a **single-scroll, sliver-based architecture** for building a Daraz-style product listing screen in Flutter.
-The focus is not UI polish, but **correct scroll ownership and gesture coordination** across collapsible headers, sticky tabs, and horizontally swipeable tab views.
-
----
-
-## ✅ Features Implemented
-
-* Collapsible header (carousel/banner)
-* Sticky `TabBar` when header collapses
-* Multiple tabs with product grids (mocked / API-powered)
-* Horizontal tab navigation:
-
-  * Tap on tabs
-  * Swipe between tabs
-* Pull-to-refresh from any tab
-* Exactly **one vertical scrollable**
-* Scroll position preserved when switching tabs
-* No scroll conflict or jitter
-* Sliver-based layout (`ExtendedNestedScrollView`)
-* Clear separation of UI, scroll ownership, and state (BLoC)
+A Flutter application built from a provided Figma design and GET API for the Antripe technical assignment.
+This project focuses on pixel-perfect UI, clean architecture (DDD-based), API integration, search & filtering, and smooth user experience.
 
 ---
 
-## 🧠 Architecture Overview
+## 🧩 Assignment Overview
 
-### 🔹 Root Layout
+This project was developed based on the official assignment requirements provided by **Antripe**.
 
-```dart
-ExtendedNestedScrollView(
-  onlyOneScrollInBody: true,
-  headerSliverBuilder: ...
-  body: TabBarView(...)
-)
+**Core Evaluation Goals:**
+
+* Pixel-perfect UI implementation from Figma
+* Clean Flutter architecture & production-ready code
+* API integration + state management
+* Category filtering + search (name & phone)
+* Smooth animations & UI polish
+
+---
+
+## 🔗 Resources Used
+
+* 🎨 **Figma Design:**
+  [https://www.figma.com/design/rtRcWLCvXI1BapaupLmOHK/Task?node-id=0-1&p=f&t=uRJlJYJe8uT59cj1-0](https://www.figma.com/design/rtRcWLCvXI1BapaupLmOHK/Task?node-id=0-1&p=f&t=uRJlJYJe8uT59cj1-0)
+
+* 🌐 **API (GET):**
+  [https://api.antripe.com/v1/contact/api.json](https://api.antripe.com/v1/contact/api.json)
+
+---
+
+## ✨ Features Implemented
+
+### 🚀 Splash Screen
+
+* Custom splash screen with smooth tween animation
+* Follows brand style from Figma
+* Clean animation with focus on polish and performance
+
+### 🏠 Home Screen
+
+* API call on load
+* Contacts list rendered from network data
+* Loading state with skeleton UI
+* Empty state (no data)
+* Error state handling (network / API failure)
+
+### 🗂 Categories (Horizontal Scroll)
+
+* Categories displayed in horizontal list
+* Active state UI for selected category
+* Filters contacts by selected category
+* Fully matches spacing, padding, and typography from Figma
+
+### 🔍 Search
+
+* Search by:
+
+  * Name
+  * Phone number
+* Debounced search input
+* Works together with category filter
+* Smooth UX without UI jank
+
+---
+
+## 🧱 Architecture
+
+This project follows **DDD-based Clean Architecture** with feature-based folder structure.
+
 ```
-
-* `ExtendedNestedScrollView` owns the **entire vertical scroll**
-* Header is built using slivers:
-
-  * `SliverToBoxAdapter` → collapsible banner
-  * `SliverPersistentHeader` → pinned `TabBar`
-* `TabBarView` handles horizontal swipes only
-
----
-
-## 🧭 Mandatory Explanation
-
-### 1️⃣ How Horizontal Swipe Was Implemented
-
-Horizontal swipe is implemented using Flutter’s native:
-
-```dart
-TabBarView(
-  controller: tabController,
-  children: ...
-)
-```
-
-This gives:
-
-* Natural left/right swipe gestures
-* Smooth animation between tabs
-* No manual gesture detection needed
-
-**Why this is safe:**
-
-* `TabBarView` only listens to **horizontal drag gestures**
-* Vertical gestures are passed up to the parent scroll view
-* This prevents horizontal swipes from accidentally triggering vertical scroll
-
----
-
-### 2️⃣ Who Owns the Vertical Scroll and Why
-
-**Single source of truth for vertical scroll:**
-
-```dart
-ExtendedNestedScrollView(
-  onlyOneScrollInBody: true,
-)
-```
-
-* The **outer scroll view owns vertical scrolling**
-* Each tab’s content is rendered inside a `CustomScrollView`
-* `onlyOneScrollInBody: true` ensures:
-
-  * No nested vertical scroll conflicts
-  * The header, tab bar, and body scroll as a single unified scrollable
-  * Pull-to-refresh works from any tab
-
-This guarantees:
-
-✅ One vertical scroll
-✅ No scroll jitter
-✅ No double scrolling
-✅ No fighting scroll physics
-
----
-
-### 3️⃣ Trade-offs / Limitations
-
-| Trade-off                                              | Explanation                                                                                                                                                               |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Using `extended_nested_scroll_view`                    | This is not Flutter core. However, Flutter’s native `NestedScrollView` does not fully support correct single-scroll behavior with `TabBarView` and slivers without hacks. |
-| State per tab is kept alive                            | `AutomaticKeepAliveClientMixin` is used to preserve scroll position when switching tabs. This increases memory usage slightly.                                            |
-| Pull-to-refresh with nested slivers                    | Requires wrapping the tab content carefully so that the parent scroll still controls the gesture.                                                                         |
-| Tab content must avoid its own vertical scroll physics | Inner scroll views rely on parent coordination. Incorrect physics can reintroduce scroll conflict.                                                                        |
-
----
-
-## 🔄 Scroll Position Preservation
-
-```dart
-class _ProductTabViewState extends State<ProductTabView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-}
-```
-
-This ensures:
-
-* Switching tabs does **not reset scroll position**
-* User experience matches real e-commerce apps
-
-Additionally:
-
-```dart
-key: PageStorageKey<String>(widget.category),
-```
-
-Preserves scroll state per tab.
-
----
-
-## 🔁 Pull-to-Refresh Behavior
-
-```dart
-RefreshIndicator(
-  onRefresh: () async => getProducts(),
-)
-```
-
-* Pull-to-refresh works from **any tab**
-* Gesture bubbles correctly to the parent scroll view
-* No conflict with horizontal swipes
-
----
-
-## 🧩 Gesture Conflict Avoidance
-
-| Gesture          | Owner                      |
-| ---------------- | -------------------------- |
-| Vertical scroll  | `ExtendedNestedScrollView` |
-| Horizontal swipe | `TabBarView`               |
-| Refresh gesture  | Parent vertical scroll     |
-| Tab switching    | `TabController`            |
-
-This clean separation ensures:
-
-✔ No accidental vertical scrolling during horizontal swipe
-✔ No scroll locking
-✔ Predictable user interaction
-
----
-
-## 📂 Folder Structure (Simplified)
-
-```text
 lib/
  ├─ config/
  ├─ core/
@@ -175,7 +76,7 @@ lib/
  │   └─ home/
  │       ├─ data/
  │       │   ├─ datasource/
- │       │        ├─ remote_datasource/
+ │       │   │     ├─ remote_datasource/
  │       │   ├─ entities/
  │       │   ├─ repositories/
  │       │   └─ usecases/
@@ -192,45 +93,88 @@ lib/
  └─ widgets/
 ```
 
-* UI is separate from state (BLoC)
-* Scroll logic is localized to `HomePage`
-* Tab content is isolated in `ProductTabView`
+**Layers:**
+
+* `data` → API models, repositories
+* `domain` → entities, use cases
+* `presentation` → UI + BLoC
 
 ---
 
-## ▶️ How to Run
+## 🧠 State Management
+
+* BLoC (`flutter_bloc`)
+* Clean separation of concerns
+* UI reacts to state changes
+* Search debouncing implemented at BLoC level
+
+---
+
+## 📦 Libraries Used & Why
+
+| Package              | Purpose                   |
+| -------------------- | ------------------------- |
+| flutter_bloc         | State management          |
+| dio                  | API networking            |
+| get_it               | Dependency injection      |
+| dartz                | Functional error handling |
+| equatable            | Value equality for states |
+| skeletonizer         | Loading skeleton UI       |
+| flutter_screenutil   | Responsive UI             |
+| cached_network_image | Image caching             |
+| go_router            | Navigation                |
+| google_fonts         | Typography                |
+| flutter_svg          | SVG asset support         |
+| hive / hive_flutter  | Local storage (if needed) |
+| logger               | Debug logging             |
+| toastification       | User feedback messages    |
+
+---
+
+## ⚙️ Tech Stack
+
+* **Flutter:** 3.38.5 (stable)
+* **Dart SDK:** ^3.10.4
+* **Architecture:** DDD-based Clean Architecture
+* **Platform:** Android / Web
+* **API Client:** Dio
+
+---
+
+## 🛠 Setup Instructions
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone <your-repository-url>
+cd flutter_task
+```
+
+### 2️⃣ Install Dependencies
 
 ```bash
 flutter pub get
+```
+
+### 3️⃣ Generate Splash & App Icons (if needed)
+
+```bash
+flutter pub run flutter_native_splash:create
+flutter pub run flutter_launcher_icons
+```
+
+### 4️⃣ Run the App
+
+```bash
 flutter run
 ```
 
 ---
 
-## 🏁 Summary
+## 📲 How to Use
 
-This project focuses on:
-
-* Correct single-scroll architecture
-* Sliver-based collapsible + pinned layout
-* Proper ownership of vertical vs horizontal gestures
-* Clean, maintainable structure
-* Real-world app behavior (Daraz-style UX)
-
-This intentionally avoids hacks like:
-❌ multiple `ListView`s
-❌ nested scroll physics tricks
-❌ magic pixel offsets
-❌ global scroll controllers
-
----
-
-## 🧪 If Time Ran Out (Fallback Explanation)
-
-If implementation was incomplete, the intended architecture would still be:
-
-* Root `ExtendedNestedScrollView`
-* Sliver header + pinned `TabBar`
-* `TabBarView` for horizontal navigation
-* Inner tab views rendered as slivers only
-* No independent vertical scrollables inside tabs
+1. App launches with animated splash screen
+2. Home screen loads contacts from API
+3. Select category to filter contacts
+4. Use search field to search by name or phone
+5. Search works with category filter together
