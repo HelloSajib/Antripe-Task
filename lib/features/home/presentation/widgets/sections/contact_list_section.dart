@@ -12,6 +12,7 @@ import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 import 'package:flutter_task/features/home/presentation/widgets/empty_contacts_widget.dart';
 import 'package:flutter_task/features/home/presentation/widgets/item_view/contact_item_view.dart';
+import 'package:flutter_task/features/home/presentation/widgets/skeletons/contacts_list_skeleton.dart';
 import 'package:flutter_task/widgets/circle_loading_widget.dart';
 import 'package:flutter_task/widgets/error_widget/error_widget.dart';
 import 'package:flutter_task/widgets/network_image_widget.dart';
@@ -42,7 +43,7 @@ class ContactsListSection extends HookWidget {
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if(state.status.isLoading){
-                  return CircleLoadingWidget();
+                  return ContactsListSkeleton();
                 }else if(state.status.isSuccess){
                   if(state.contacts.isNotNullAndNotEmpty){
 

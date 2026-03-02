@@ -8,6 +8,7 @@ import 'package:flutter_task/core/utils/extensions/status_extension.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 import 'package:flutter_task/features/home/presentation/widgets/item_view/category_item_view.dart';
+import 'package:flutter_task/features/home/presentation/widgets/skeletons/contact_category_skeleton.dart';
 
 class ContactCategorySection extends HookWidget {
   const ContactCategorySection({super.key});
@@ -23,7 +24,10 @@ class ContactCategorySection extends HookWidget {
       height: 90.h,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state.status.isSuccess && state.categories.isNotNullAndNotEmpty) {
+          if(state.status.isLoading){
+            return ContactCategorySkeleton();
+          }else if (state.status.isSuccess && state.categories.isNotNullAndNotEmpty) {
+
             return ListView.builder(
               itemCount: state.categories?.length,
               scrollDirection: .horizontal,
@@ -39,6 +43,7 @@ class ContactCategorySection extends HookWidget {
                 );
               },
             );
+
           } else {
             return SizedBox.shrink();
           }
