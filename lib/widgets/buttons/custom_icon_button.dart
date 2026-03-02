@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_task/core/utils/styles/app_colors.dart';
 
 class CustomIconButton extends StatelessWidget {
   final String iconPath;

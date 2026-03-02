@@ -1,10 +1,8 @@
 
-import 'package:flutter_task/core/utils/styles/app_colors.dart';
-import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
-import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
+import 'package:flutter_task/core/utils/styles/app_colors.dart';
+import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 
 class PrimaryButton extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_task/config/service_locator/service_locator.dart';
 import 'package:flutter_task/core/utils/enums/enums.dart';
-import 'package:flutter_task/features/home/data/models/contacts_model.dart' hide Status;
+import 'package:flutter_task/features/home/data/models/contacts_model.dart';
 import 'package:flutter_task/features/home/domain/entities/contact_entity.dart';
 import 'package:flutter_task/features/home/domain/usecases/get_contacts_usecase.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';

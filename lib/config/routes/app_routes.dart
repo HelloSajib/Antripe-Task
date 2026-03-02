@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/config/routes/route_error_page.dart';
 import 'package:flutter_task/features/home/home_routes.dart';
-import 'package:flutter_task/features/home/presentation/pages/home_page.dart';
 import 'package:flutter_task/features/onboarding/presentation/onboarding_routes.dart';
-import 'package:flutter_task/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:flutter_task/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter_task/features/splash/splash_routes.dart';
 import 'package:go_router/go_router.dart';
