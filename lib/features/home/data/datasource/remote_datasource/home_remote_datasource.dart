@@ -18,7 +18,7 @@ class HomeRemoteDatasourceImpl implements HomeRemoteDatasource{
   @override
   Future<Either<Failure, ContactsEntity?>> getContacts() async {
     try{
-     Response response = await sl<DioClient>().get(ApiUrls.products);
+     Response response = await sl<DioClient>().get(ApiUrls.contacts);
      final contactEntity = ContactsModel.fromJson(response.data).contactsData?.toEntity();
      return Right(contactEntity);
     }catch(error, stackTrace){

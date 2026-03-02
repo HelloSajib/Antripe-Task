@@ -11,6 +11,17 @@ import 'package:flutter_task/widgets/text_forms/dropdown_text_form_field.dart';
 import 'package:flutter_task/widgets/text_forms/phone_text_form_field.dart';
 import 'package:flutter_task/widgets/text_forms/primary_text_form_field.dart';
 
+void showAddContactBottomSheet(BuildContext context){
+  showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context){
+        return AddContactBottomSheet();
+      }
+  );
+}
+
+
 class AddContactBottomSheet extends HookWidget {
   const AddContactBottomSheet({super.key});
 

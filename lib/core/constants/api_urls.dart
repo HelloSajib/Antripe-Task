@@ -7,13 +7,10 @@ class ApiUrls {
   /// Staging Base Url
   //static const String _baseURL = "http://192.168.20.244:9090";
   /// Production Base Url
-  static const String _baseURL = "https://fakestoreapi.com";
-
-  /// Auth Endpoints
-  static const String signIn = "/auth/login";
+  static const String _baseURL = "https://api.antripe.com";
 
   /// Products Endpoints
-  static const String products = "/products";
+  static const String contacts = "/v1/contact/api.json";
 
 
   // Public getter to access the base URL

@@ -8,16 +8,6 @@ class CustomFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void showAddContactDialog(){
-      showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context){
-            return AddContactBottomSheet();
-          }
-      );
-    }
-
     return Stack(
       alignment: .center,
       children: [
@@ -30,7 +20,7 @@ class CustomFloatingButton extends StatelessWidget {
           bottom: 30,
           right: 25,
           child: IconButton(
-              onPressed: showAddContactDialog,
+              onPressed: ()=> showAddContactBottomSheet(context),
               icon: Icon(
                 Icons.add_rounded,
                 color: Colors.white,

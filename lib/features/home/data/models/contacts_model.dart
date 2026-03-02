@@ -81,7 +81,7 @@ class ContactsData {
 }
 
 class Category {
-  final Id? id;
+  final String? id;
   final String? name;
 
   Category({
@@ -90,7 +90,7 @@ class Category {
   });
 
   Category copyWith({
-    Id? id,
+    String? id,
     String? name,
   }) =>
       Category(
@@ -103,45 +103,25 @@ class Category {
   String toRawJson() => json.encode(toJson());
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    id: idValues.map[json["id"]]!,
+    id: json["id"],
     name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": idValues.reverse[id],
+    "id": id,
     "name": name,
   };
 }
-
-enum Id {
-  ALL,
-  BLOCKED,
-  CLIENTS,
-  FAMILY,
-  FRIENDS,
-  VIP,
-  WORK
-}
-
-final idValues = EnumValues({
-  "all": Id.ALL,
-  "blocked": Id.BLOCKED,
-  "clients": Id.CLIENTS,
-  "family": Id.FAMILY,
-  "friends": Id.FRIENDS,
-  "vip": Id.VIP,
-  "work": Id.WORK
-});
 
 class Contact {
   final String? id;
   final bool? isEmpty;
   final String? name;
   final String? phone;
-  final Id? categoryId;
+  final String? categoryId;
   final String? avatarUrl;
   final String? subtitle;
-  final Status? status;
+  final String? status;
   final DateTime? createdAt;
 
   Contact({
@@ -161,10 +141,10 @@ class Contact {
     bool? isEmpty,
     String? name,
     String? phone,
-    Id? categoryId,
+    String? categoryId,
     String? avatarUrl,
     String? subtitle,
-    Status? status,
+    String? status,
     DateTime? createdAt,
   }) =>
       Contact(
@@ -188,10 +168,10 @@ class Contact {
     isEmpty: json["isEmpty"],
     name: json["name"],
     phone: json["phone"],
-    categoryId: idValues.map[json["categoryId"]]!,
+    categoryId: json["categoryId"],
     avatarUrl: json["avatarUrl"],
     subtitle: json["subtitle"],
-    status: statusValues.map[json["status"]]!,
+    status: json["status"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
   );
 
@@ -200,32 +180,10 @@ class Contact {
     "isEmpty": isEmpty,
     "name": name,
     "phone": phone,
-    "categoryId": idValues.reverse[categoryId],
+    "categoryId": categoryId,
     "avatarUrl": avatarUrl,
     "subtitle": subtitle,
-    "status": statusValues.reverse[status],
+    "status": status,
     "createdAt": createdAt?.toIso8601String(),
   };
-}
-
-enum Status {
-  ACTIVE,
-  INACTIVE
-}
-
-final statusValues = EnumValues({
-  "active": Status.ACTIVE,
-  "inactive": Status.INACTIVE
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

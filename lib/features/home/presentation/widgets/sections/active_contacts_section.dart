@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_task/core/utils/extensions/null_empty_extension.dart';
+import 'package:flutter_task/core/utils/extensions/status_extension.dart';
 import 'package:flutter_task/core/utils/styles/app_text_styles.dart';
 import 'package:flutter_task/core/utils/ui_helpers/margins.dart';
 import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
+import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_task/features/home/presentation/widgets/item_view/active_contact_item_view.dart';
 import 'package:flutter_task/widgets/network_image_widget.dart';
 
 class ActiveContactsSection extends StatelessWidget {
@@ -14,34 +19,25 @@ class ActiveContactsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 90.h,
-      child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: .horizontal,
-          itemBuilder: (context, index) {
-            return Container(
-              width: 64.w,
-              height: 82.h,
-              padding: padding4,
-              margin: marginRight16,
-              child: Column(
-                children: [
-                  NetworkImageWidget(
-                    imageUrl: "https://t3.ftcdn.net/jpg/06/07/84/82/360_F_607848231_w5iFN4tMmtI2woJjMh7Q8mGvgARnzHgQ.jpg",
-                    width: 56.w,
-                    height: 56.h,
-                    borderRadius: radiusCircle,
-                  ),
-                  gap4,
-                  Text(
-                    "Sajib Hasan",
-                    maxLines: 1,
-                    overflow: .ellipsis,
-                    style: AppTextStyles.secondaryRegular,
-                  )
-                ],
-              ),
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if(state.status.isSuccess && state.contacts.isNotNullAndNotEmpty){
+            return ListView.builder(
+                itemCount: state.contacts?.length,
+                scrollDirection: .horizontal,
+                itemBuilder: (context, index) {
+                  final contact = state.contacts![index];
+                  return ActiveContactItemView(
+                    imageUrl: contact.avatarUrl ?? "",
+                    name: contact.name ?? "N/A",
+                    isActive: contact.status == "active",
+                  );
+                }
             );
+          }else{
+            return SizedBox.shrink();
           }
+        },
       ),
     );
   }
