@@ -8,15 +8,16 @@ import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
 import 'package:flutter_task/widgets/network_image_widget.dart';
 
-class ActiveContactItemView extends StatelessWidget {
+class CategoryItemView extends StatelessWidget {
   final String imageUrl;
-  final String name;
-  final bool isActive;
-  const ActiveContactItemView({
+  final String categoryName;
+  final bool isSelected;
+
+  const CategoryItemView({
     super.key,
     required this.imageUrl,
-    required this.name,
-    required this.isActive
+    required this.categoryName,
+    required this.isSelected
   });
 
   @override
@@ -31,7 +32,7 @@ class ActiveContactItemView extends StatelessWidget {
           Container(
             width: 56.w,
             height: 56.w,
-            decoration: isActive ? BoxDecoration(
+            decoration: isSelected ? BoxDecoration(
               shape: .circle,
               border: .all(
                 color: AppColors.primary,
@@ -47,12 +48,12 @@ class ActiveContactItemView extends StatelessWidget {
           ),
           gap4,
           Text(
-            name,
+            categoryName,
             maxLines: 1,
             overflow: .ellipsis,
             style: AppTextStyles.secondaryRegular.copyWith(
-              color: isActive ? AppColors.primary : null,
-              fontWeight: isActive ? .bold : null
+              color: isSelected ? AppColors.primary : null,
+              fontWeight: isSelected ? .bold : null
             ),
           )
         ],

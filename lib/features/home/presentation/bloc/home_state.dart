@@ -6,12 +6,14 @@ class HomeState extends Equatable{
   final String? message;
   final Status status;
   final List<Contact>? contacts;
+  final List<Category>? categories;
   final ContactsEntity? contactsEntity;
 
   const HomeState({
     required this.message,
     required this.status,
     required this.contacts,
+    required this.categories,
     required this.contactsEntity
   });
 
@@ -20,6 +22,7 @@ class HomeState extends Equatable{
     message: null,
     status: Status.initial,
     contacts: null,
+    categories: null,
     contactsEntity: null
   );
 
@@ -28,11 +31,13 @@ class HomeState extends Equatable{
     String? message,
     Status? status,
     List<Contact>? contacts,
+    List<Category>? categories,
     ContactsEntity? contactsEntity
   }) => HomeState(
     message: message ?? this.message,
     status: status ?? this.status,
     contacts: contacts ?? this.contacts,
+    categories: categories ?? this.categories,
     contactsEntity: contactsEntity ?? this.contactsEntity
   );
 
@@ -41,6 +46,7 @@ class HomeState extends Equatable{
     message,
     status,
     contacts,
+    categories,
     contactsEntity
   ];
 

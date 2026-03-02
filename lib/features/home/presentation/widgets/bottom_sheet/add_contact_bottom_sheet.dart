@@ -8,11 +8,11 @@ import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/core/utils/ui_helpers/radius.dart';
 import 'package:flutter_task/core/utils/ui_helpers/spacing.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
-import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_task/widgets/buttons/primary_button.dart';
 import 'package:flutter_task/widgets/text_forms/dropdown_text_form_field.dart';
 import 'package:flutter_task/widgets/text_forms/phone_text_form_field.dart';
 import 'package:flutter_task/widgets/text_forms/primary_text_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 void showAddContactBottomSheet(BuildContext context) {
   showModalBottomSheet(
@@ -96,7 +96,7 @@ class AddContactBottomSheet extends HookWidget {
               ),
               gap24,
               PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.pop(),
                 text: "Cancel",
                 textColor: AppColors.textGreyLight,
                 strokeColor: AppColors.greyLight,

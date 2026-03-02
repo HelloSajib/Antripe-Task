@@ -26,6 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState>{
         (data)=> emit(state.copyWith(
           status: Status.success,
           contacts: data?.contacts,
+          categories: data?.categories,
           contactsEntity: data
         ))
     );

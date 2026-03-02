@@ -7,7 +7,7 @@ import 'package:flutter_task/core/utils/ui_helpers/paddings.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_task/features/home/presentation/bloc/home_event.dart';
 import 'package:flutter_task/features/home/presentation/widgets/custom_floating_button.dart';
-import 'package:flutter_task/features/home/presentation/widgets/sections/active_contacts_section.dart';
+import 'package:flutter_task/features/home/presentation/widgets/sections/contact_category_section.dart';
 import 'package:flutter_task/features/home/presentation/widgets/sections/contact_list_section.dart';
 import 'package:flutter_task/widgets/app_bar/primary_app_bar.dart';
 
@@ -47,7 +47,7 @@ class HomePage extends HookWidget {
                 padding: paddingLeft24,
                 child: Column(
                   children: [
-                    ActiveContactsSection(),
+                    ContactCategorySection(),
                     ContactsListSection()
                   ],
                 ),

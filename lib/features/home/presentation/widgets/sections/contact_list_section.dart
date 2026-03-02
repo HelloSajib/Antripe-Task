@@ -46,17 +46,21 @@ class ContactsListSection extends HookWidget {
                 }else if(state.status.isSuccess){
                   if(state.contacts.isNotNullAndNotEmpty){
 
-                    return ScrollablePositionedList.builder(
-                        itemScrollController: charScrollController,
-                        itemCount: state.contacts!.length,
-                        itemBuilder: (context, index) {
-                          final contact = state.contacts![index];
-                          return ContactItemView(
-                              imageUrl: contact.avatarUrl ?? "",
-                              name: contact.name ?? "N/A",
-                              phone: contact.phone ?? "N/A"
-                          );
-                        }
+                    return RefreshIndicator(
+                      onRefresh: () async => context.read<HomeBloc>().add(GetContacts()),
+                      color: AppColors.primary,
+                      child: ScrollablePositionedList.builder(
+                          itemScrollController: charScrollController,
+                          itemCount: state.contacts!.length,
+                          itemBuilder: (context, index) {
+                            final contact = state.contacts![index];
+                            return ContactItemView(
+                                imageUrl: contact.avatarUrl ?? "",
+                                name: contact.name ?? "N/A",
+                                phone: contact.phone ?? "N/A"
+                            );
+                          }
+                      ),
                     );
 
                   }else{
