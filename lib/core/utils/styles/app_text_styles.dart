@@ -33,8 +33,8 @@ class AppTextStyles {
 
 
   static TextStyle titleLarge = GoogleFonts.inter(
-    fontSize: 22.sp,
-    fontWeight: .w500,
+    fontSize: 24.sp,
+    fontWeight: .bold,
     color: AppColors.textPrimary,
   );
 
