@@ -32,9 +32,7 @@ class SearchPage extends HookWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             SearchSection(),
-
             Expanded(
               child: Container(
                 width: 1.sw,

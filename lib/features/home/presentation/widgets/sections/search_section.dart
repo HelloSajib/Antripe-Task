@@ -22,12 +22,12 @@ class SearchSection extends HookWidget {
           children: [
 
             Container(
-              width: 60.w,
-              height: 60.h,
+              width: 58.w,
+              height: 58.h,
               decoration: BoxDecoration(
                   borderRadius: radius8,
                   border: .all(
-                      color: AppColors.grey,
+                      color: AppColors.greyLight,
                       width: 1.2.w
                   )
               ),
@@ -45,7 +45,9 @@ class SearchSection extends HookWidget {
             Expanded(
               child: SearchTextFormField(
                 controller: searchController,
-                onChanged: (value){},
+                onChanged: (value){
+                  print("Called ++++");
+                },
               ),
             ),
           ],
